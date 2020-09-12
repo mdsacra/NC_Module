@@ -10,9 +10,15 @@ namespace NC_Module_Test
     [TestClass]
     public class UnitTest1
     {
+        [TestMethod]
+        public void ShouldCreateNc()
+        {
+            NonConfBLL nonConfBLL = new NonConfBLL();
+            Assert.IsNotNull(nonConfBLL);
+        }
 
         [TestMethod]
-        public void MustMakeNcDTO()
+        public void ShouldMakeNcDTO()
         {
 
             NonConf nonConf = new NonConf();
@@ -24,14 +30,10 @@ namespace NC_Module_Test
         }
 
         [TestMethod]
-        public void MustReturnTheNcCode()
+        public void ShouldReturnTheNcCode()
         {
             NonConf nonConf = new NonConf();
             NonConfBLL nonConfBll = new NonConfBLL();
-
-            nonConf.Id = 1;
-            nonConf.Date = new DateTime(2020, 09, 12);
-            nonConf.Version = 1;
 
             var nonConfDto = nonConfBll.MakeNcDTO(nonConf);
 

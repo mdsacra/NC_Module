@@ -12,15 +12,13 @@ namespace NC_Module.Models
         [Key]
         public int Id { get; set; }
 
-        [Timestamp]
-        public DateTime Date { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime Date { get; }
         
-        public int Version { get; set; }
-        public string Code { get; set; }
-        public int Status { get; set; }
-        public string Description { get; set; }
+        public int Version { get; internal set; }
+        public int Status { get; internal set; }
+        public string Description { get; internal set; }
         
-        [NotMapped]
-        public List<CorrAction> Actions { get; set; }
+        public List<CorrAction> CorrActions { get; internal set; }
     }
 }
