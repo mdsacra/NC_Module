@@ -19,7 +19,17 @@ namespace NC_Module.DAL
 
         public DbSet<NonConf> nonConfs { get; set; }
         public DbSet<CorrAction> corrActions { get; set; }
+        public DbSet<NonConfCorrActions> nonConfCorrActions { get; set; }
 
-       
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<NonConfCorrActions>().HasKey(nc => new { nc.CorrActionId, nc.NonConfId });
+                        
+                        
+                        
+                        
+        }
+
     }
 }

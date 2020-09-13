@@ -3,6 +3,8 @@ using NC_Module.BLL;
 using NC_Module.ModelDTO;
 using NC_Module.Models;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 
 namespace NC_Module_Test
@@ -14,13 +16,15 @@ namespace NC_Module_Test
         public void ShouldCreateNc()
         {
             NonConfBLL nonConfBLL = new NonConfBLL();
-            Assert.IsNotNull(nonConfBLL);
+            List<CorrAction> corrActions = new List<CorrAction>();
+            var nonConf = nonConfBLL.CreateNc(1, "anything", corrActions);
+
+            Assert.IsInstanceOfType(nonConf, typeof(NonConf));
         }
 
         [TestMethod]
         public void ShouldMakeNcDTO()
         {
-
             NonConf nonConf = new NonConf();
             NonConfBLL nonConfBLL = new NonConfBLL();
 
@@ -32,12 +36,27 @@ namespace NC_Module_Test
         [TestMethod]
         public void ShouldReturnTheNcCode()
         {
-            NonConf nonConf = new NonConf();
             NonConfBLL nonConfBll = new NonConfBLL();
 
-            var nonConfDto = nonConfBll.MakeNcDTO(nonConf);
+            var nonConfDto = nonConfBll.MakeNcDTO(
+                             nonConfBll.CreateNc(1, "anything", new List<CorrAction>()));
 
-            Assert.AreEqual("2020:01:01", nonConfDto.Code);
+            Assert.AreEqual("2020:00:01", nonConfDto.Code);
+        }
+
+        [TestMethod]
+        public void ShouldReturnNotEmptyCorrActionsList()
+        {
+            CorrAction corrAction = new CorrAction();
+            corrAction.Description = "Do Anything.";
+            List<CorrAction> corrActions = new List<CorrAction>();
+            corrActions.Add(corrAction);
+
+            NonConfBLL nonConfBLL = new NonConfBLL();
+            NonConf nonConf = nonConfBLL.CreateNc(1, "anything", corrActions);
+
+            Assert.IsTrue(nonConf.CorrActions.Count > 0);
+
         }
 
 

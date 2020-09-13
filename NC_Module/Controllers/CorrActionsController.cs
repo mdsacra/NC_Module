@@ -15,7 +15,6 @@ namespace NC_Module.Controllers
     public class CorrActionsController : ControllerBase
     {
         [HttpGet]
-        [Route("")]
         public List<CorrAction> Get([FromServices] DataContext dataContext)
         {
             return dataContext.corrActions.ToList();
@@ -25,9 +24,9 @@ namespace NC_Module.Controllers
         [HttpPost]
         public void Post(
             [FromServices] DataContext context,
-            [FromBody] CorrAction model)
+            [FromBody] CorrAction corrAction)
         {
-            context.corrActions.Add(model);
+            context.corrActions.Add(corrAction);
             context.SaveChanges();
             
         }

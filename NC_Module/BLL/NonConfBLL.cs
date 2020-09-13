@@ -10,14 +10,9 @@ namespace NC_Module.BLL
     public class NonConfBLL
     {
 
-        public int status { get; set; }
-        public string description { get; set; }
-        public List<CorrAction> corrActionsList { get; set; }
-
         public NonConf CreateNc(int status, string description, List<CorrAction> corrActions)
         {
             NonConf nonConf = new NonConf();
-            nonConf.Version = 1;
             nonConf.Status = status;
             nonConf.Description = description;
             nonConf.CorrActions = corrActions;

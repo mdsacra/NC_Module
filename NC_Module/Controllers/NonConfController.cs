@@ -30,12 +30,12 @@ namespace NC_Module.Controllers
         [HttpPost]
         public void Post(
             [FromServices] DataContext context,
-            [FromBody] NonConfBLL nonConfBLL)
+            [FromBody] NonConfDto nonConfDto)
         {
+       
+            NonConfBLL nonConfBLL = new NonConfBLL();
 
-            NonConfBLL nonConfBLL1 = new NonConfBLL();
-
-            NonConf nonConf = nonConfBLL1.CreateNc(nonConfBLL.status, nonConfBLL.description, nonConfBLL.corrActionsList);
+            NonConf nonConf = nonConfBLL.CreateNc(nonConfDto.Status, nonConfDto.Description, nonConfDto.CorrActions);
 
             context.nonConfs.Add(nonConf);
             context.SaveChanges();
