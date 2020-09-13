@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NC_Module.BLL;
-using NC_Module.DAL;
 using NC_Module.ModelDTO;
 using NC_Module.Models;
+using NC_Module.Services.NonConfService;
 
 namespace NC_Module.Controllers
 {
@@ -15,31 +15,31 @@ namespace NC_Module.Controllers
     [ApiController]
     public class NonConfController : ControllerBase
     {
-        [HttpGet]
-        [Route("{Id}")]
-        public NonConfDto Get([FromServices] DataContext context, int Id)
+        
+        private readonly INonConfBLL _nonConfBLL;
+
+        public NonConfController(INonConfService nonConfService)
         {
+            _nonConfBLL = nonConfService;
+        }
 
-            NonConf nonConf = context.nonConfs.Find(Id);
-            NonConfBLL nonConfBLL = new NonConfBLL();
-            return nonConfBLL.MakeNcDTO(nonConf);
+        [Route("all")]
+        public IActionResult Get()
+        {
+            return Ok(_nonConfBLL.GetAllNonConf()); 
+        }
 
-            
+        [Route("{Id}")]
+        public IActionResult GetSingle(int id)
+        {
+            return NotFound(id);
         }
 
         [HttpPost]
-        public void Post(
-            [FromServices] DataContext context,
-            [FromBody] NonConfDto nonConfDto)
+        public IActionResult Post(NonConfDto nonConfDto)
         {
-       
-            NonConfBLL nonConfBLL = new NonConfBLL();
-
-            NonConf nonConf = nonConfBLL.CreateNc(nonConfDto.Status, nonConfDto.Description, nonConfDto.CorrActions);
-
-            context.nonConfs.Add(nonConf);
-            context.SaveChanges();
-
+            return Ok(_nonConfBLL.CreateNonConf(nonConfDto.Status, nonConfDto.Description));
         }
+
     }
 }

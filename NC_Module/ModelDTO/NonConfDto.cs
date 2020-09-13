@@ -1,4 +1,5 @@
-﻿using NC_Module.Models;
+﻿using NC_Module.BLL;
+using NC_Module.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ namespace NC_Module.ModelDTO
 {
     public class NonConfDto
     {
+
         public string Code { get; internal set; }
         public int Status { get; set; }
         public string Description { get; set; }

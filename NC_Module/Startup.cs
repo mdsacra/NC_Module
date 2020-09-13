@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NC_Module.DAL;
+using NC_Module.BLL;
 
 namespace NC_Module
 {
@@ -28,10 +28,12 @@ namespace NC_Module
         public void ConfigureServices(IServiceCollection services)
         {
             
-            services.AddDbContext<DataContext>(
+            /*services.AddDbContext<DataContext>(
                 options => options.UseInMemoryDatabase("DataBase"));
+            */
 
             services.AddControllers();
+            services.AddScoped<NonConfBLL>();
 
             
         }
@@ -44,7 +46,7 @@ namespace NC_Module
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

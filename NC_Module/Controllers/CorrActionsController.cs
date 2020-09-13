@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NC_Module.DAL;
 using NC_Module.Models;
 
 namespace NC_Module.Controllers
@@ -15,22 +14,19 @@ namespace NC_Module.Controllers
     public class CorrActionsController : ControllerBase
     {
         [HttpGet]
-        public List<CorrAction> Get([FromServices] DataContext dataContext)
+        public List<CorrAction> Get()
         {
-            return dataContext.corrActions.ToList();
+            return new List<CorrAction>();
 
         }
 
-        [HttpPost]
-        public void Post(
-            [FromServices] DataContext context,
-            [FromBody] CorrAction corrAction)
+       /* [HttpPost]
+        public void Post(CorrAction corrAction)
         {
-            context.corrActions.Add(corrAction);
-            context.SaveChanges();
             
-        }
 
+        }
+*/
         
     }
 }

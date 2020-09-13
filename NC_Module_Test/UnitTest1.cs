@@ -5,7 +5,6 @@ using NC_Module.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 
 namespace NC_Module_Test
 {
@@ -39,7 +38,7 @@ namespace NC_Module_Test
             NonConfBLL nonConfBll = new NonConfBLL();
 
             var nonConfDto = nonConfBll.MakeNcDTO(
-                             nonConfBll.CreateNc(1, "anything", new List<CorrAction>()));
+                             nonConfBll.CreateNc(1, "anything"));
 
             Assert.AreEqual("2020:00:01", nonConfDto.Code);
         }
@@ -47,15 +46,15 @@ namespace NC_Module_Test
         [TestMethod]
         public void ShouldReturnNotEmptyCorrActionsList()
         {
-            CorrAction corrAction = new CorrAction();
+            /*CorrAction corrAction = new CorrAction();
             corrAction.Description = "Do Anything.";
             List<CorrAction> corrActions = new List<CorrAction>();
             corrActions.Add(corrAction);
 
             NonConfBLL nonConfBLL = new NonConfBLL();
-            NonConf nonConf = nonConfBLL.CreateNc(1, "anything", corrActions);
+            NonConf nonConf = nonConfBLL.CreateNc(1, "anything");
 
-            Assert.IsTrue(nonConf.CorrActions.Count > 0);
+            Assert.IsTrue(nonConf.CorrActions.Count > 0);*/
 
         }
 
