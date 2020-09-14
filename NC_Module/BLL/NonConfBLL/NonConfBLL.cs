@@ -1,36 +1,53 @@
-﻿using NC_Module.ModelDTO;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using NC_Module.ModelDTO;
 using NC_Module.Models;
-using NC_Module.Services.NonConfService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NC_Module.BLL
+namespace NC_Module.BLL.NonConfBLL
 {
     public class NonConfBLL
     {
 
-        public NonConfDto CreateNonConf(int status, string description)
+        public void NcCodeGenerator(NonConf nonConf)
         {
-            return MakeNcDto(new NonConf { Status = status, Description = description });
-        }
-                
-        private NonConfDto MakeNcDto(NonConf nonConf)
-        {
-            NonConfDto nonConfDto = new NonConfDto();
-            nonConfDto.Code = ReturnCodeNc(nonConf);
-            nonConfDto.Description = nonConf.Description;
-            nonConfDto.Status = nonConf.Status;
-
-            return nonConfDto;
-        }
-
-        private string ReturnCodeNc(NonConf nonConf)
-        {
-            return nonConf.Date.Year.ToString()
+            
+            nonConf.Code = nonConf.Date.Year.ToString()
                 + ":0" + nonConf.NonConfId.ToString()
                 + ":0" + nonConf.Version.ToString();
+            
         }
+
+        public NonConf EvaluateNc(NonConf nonConf)
+        {
+            if (nonConf.Status == 2)
+            {
+                return EvaluateNonEffectiveNc(nonConf);
+            } else
+            {
+                nonConf.Status = 1;
+                return nonConf;
+            }
+            
+                
+        }
+
+        private NonConf EvaluateNonEffectiveNc(NonConf nonConf)
+        {
+            NonConf newNonConf = new NonConf();
+            
+            newNonConf.Description = nonConf.Description;
+            newNonConf.Version = nonConf.Version + 1;
+            NcCodeGenerator(newNonConf);
+
+            nonConf.Status = 2;
+
+            return newNonConf;
+            
+        }
+
+
     }
 }

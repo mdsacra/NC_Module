@@ -15,7 +15,7 @@ namespace NC_Module.Models
         [Required]
         public string Description { get; set; }
         
-        public List<NonConfCorrActions> nonConfCorrActions { get; set; }
+       
         
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -14,12 +15,22 @@ namespace NC_Module.Models
 
         [Key]
         public int NonConfId { get; set; }
-        public DateTime Date { get; internal set; } = DateTime.Now;
-        public int Version { get; internal set; } = 1;
-        public int Status { get; internal set; }
-        public string Description { get; internal set; }
 
-        public List<NonConfCorrActions> nonConfCorrActions { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
+
+        public string Code { get; set; }
+
+        public int Status { get; set; } = 0;
+        
+        public string Description { get; set; }
+
+        public int Version { get; set; } = 1;
+
+        
+
+        
+
+
 
     }
 }

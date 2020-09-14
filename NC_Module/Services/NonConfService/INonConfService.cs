@@ -9,10 +9,12 @@ namespace NC_Module.Services.NonConfService
 {
     public interface INonConfService
     {
-        ServiceResponse<List<NonConfDto>> GetAllNonConf();
+        ServiceResponse<List<GetNonConfDto>> GetAllNonConf();
 
-        ServiceResponse<NonConfDto> GetNonConfById(int id);
+        ServiceResponse<GetNonConfDto> GetNonConfById(int id);
 
-        ServiceResponse<NonConfDto> AddNonConf(NonConfDto nonConfDto);
+        ServiceResponse<GetNonConfDto> AddNonConf(NonConf nonConf);
+
+        ServiceResponse<GetNonConfDto> EvaluateNonConf(UpdateNonConfDto updateNonConfDto);
     }
 }
