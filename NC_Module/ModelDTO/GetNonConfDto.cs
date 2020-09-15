@@ -13,10 +13,10 @@ namespace NC_Module.ModelDTO
 {
     public class GetNonConfDto
     {
-
+        public int Id { get; set; }
         public string Code { get; set; }
         public int Status { get; set; }
         public string Description { get; set; }
-        //public List<CorrAction> CorrActions { get; set; }
+        public List<CorrAction> CorrActions { get; set; }
     }
 }

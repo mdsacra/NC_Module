@@ -14,7 +14,7 @@ namespace NC_Module.Models
 
 
         [Key]
-        public int NonConfId { get; set; }
+        public int Id { get; set; }
 
         public DateTime Date { get; set; } = DateTime.Now;
 
@@ -26,9 +26,10 @@ namespace NC_Module.Models
 
         public int Version { get; set; } = 1;
 
-        
+        public List<NonConfCorrActions> NonConfCorrActions { get; set; }
 
-        
+
+
 
 
 

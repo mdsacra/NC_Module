@@ -16,5 +16,7 @@ namespace NC_Module.Services.NonConfService
         ServiceResponse<GetNonConfDto> AddNonConf(NonConf nonConf);
 
         ServiceResponse<GetNonConfDto> EvaluateNonConf(UpdateNonConfDto updateNonConfDto);
+
+        
     }
 }

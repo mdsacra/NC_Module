@@ -12,9 +12,10 @@ namespace NC_Module
     {
         public AutoMapperProfile()
         {
-            CreateMap<NonConf, GetNonConfDto>();
+            CreateMap<NonConf, GetNonConfDto>()
+                .ForMember(dto => dto.CorrActions, non => non.MapFrom(non => non.NonConfCorrActions.Select(ncca => ncca.CorrAction)));
             CreateMap<UpdateNonConfDto, NonConf>();
-
+            
         }
     }
 }

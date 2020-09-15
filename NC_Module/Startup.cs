@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NC_Module.Data;
+using NC_Module.Services.CorrActionService;
+using NC_Module.Services.NonConfCorrActionsService;
 using NC_Module.Services.NonConfService;
 
 namespace NC_Module
@@ -33,6 +35,8 @@ namespace NC_Module
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddScoped<INonConfService, NonConfService>();
+            services.AddScoped<INonConfCorrActionsService, NonConfCorrActionsService>();
+            services.AddScoped<ICorrActionService, CorrActionService>();
             services.AddAutoMapper(typeof(Startup));
 
         }

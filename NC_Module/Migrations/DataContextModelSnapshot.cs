@@ -19,9 +19,25 @@ namespace NC_Module.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("NC_Module.Models.CorrAction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("corrActions");
+                });
+
             modelBuilder.Entity("NC_Module.Models.NonConf", b =>
                 {
-                    b.Property<int>("NonConfId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -41,9 +57,39 @@ namespace NC_Module.Migrations
                     b.Property<int>("Version")
                         .HasColumnType("int");
 
-                    b.HasKey("NonConfId");
+                    b.HasKey("Id");
 
                     b.ToTable("nonConfs");
+                });
+
+            modelBuilder.Entity("NC_Module.Models.NonConfCorrActions", b =>
+                {
+                    b.Property<int>("NonconfId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CorractionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NonconfId", "CorractionId");
+
+                    b.HasIndex("CorractionId");
+
+                    b.ToTable("nonConfCorrActions");
+                });
+
+            modelBuilder.Entity("NC_Module.Models.NonConfCorrActions", b =>
+                {
+                    b.HasOne("NC_Module.Models.CorrAction", "CorrAction")
+                        .WithMany()
+                        .HasForeignKey("CorractionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NC_Module.Models.NonConf", "NonConf")
+                        .WithMany()
+                        .HasForeignKey("NonconfId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

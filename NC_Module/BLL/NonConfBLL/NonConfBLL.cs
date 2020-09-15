@@ -15,39 +15,10 @@ namespace NC_Module.BLL.NonConfBLL
         {
             
             nonConf.Code = nonConf.Date.Year.ToString()
-                + ":0" + nonConf.NonConfId.ToString()
+                + ":0" + nonConf.Id.ToString()
                 + ":0" + nonConf.Version.ToString();
             
         }
-
-        public NonConf EvaluateNc(NonConf nonConf)
-        {
-            if (nonConf.Status == 2)
-            {
-                return EvaluateNonEffectiveNc(nonConf);
-            } else
-            {
-                nonConf.Status = 1;
-                return nonConf;
-            }
-            
-                
-        }
-
-        private NonConf EvaluateNonEffectiveNc(NonConf nonConf)
-        {
-            NonConf newNonConf = new NonConf();
-            
-            newNonConf.Description = nonConf.Description;
-            newNonConf.Version = nonConf.Version + 1;
-            NcCodeGenerator(newNonConf);
-
-            nonConf.Status = 2;
-
-            return newNonConf;
-            
-        }
-
 
     }
 }

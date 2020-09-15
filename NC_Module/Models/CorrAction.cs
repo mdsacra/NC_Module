@@ -11,9 +11,12 @@ namespace NC_Module.Models
     {
 
         [Key]
-        public int CorrActionId { get; set; }
+        public int Id { get; set; }
+        
         [Required]
         public string Description { get; set; }
+
+        public List<NonConfCorrActions> NonConfCorrActions { get; set; }
         
        
         

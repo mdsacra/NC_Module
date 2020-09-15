@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NC_Module.BLL.NonConfBLL;
 using NC_Module.Data;
 using NC_Module.ModelDTO;
@@ -41,7 +42,7 @@ namespace NC_Module.Services.NonConfService
 
             ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
 
-            serviceResponse.Data = _mapper.Map<GetNonConfDto>(_context.nonConfs.FirstOrDefault(n => n.NonConfId == id));
+            serviceResponse.Data = _mapper.Map<GetNonConfDto>(_context.nonConfs.FirstOrDefault(n => n.Id == id));
             
             return serviceResponse;
         }
@@ -54,7 +55,7 @@ namespace NC_Module.Services.NonConfService
             _context.nonConfs.Add(nonConf);
             _context.SaveChanges();
 
-            nonConf = _context.nonConfs.OrderByDescending(n => n.NonConfId).First();
+            nonConf = _context.nonConfs.OrderByDescending(n => n.Id).First();
 
             nonConfBll.NcCodeGenerator(nonConf);
             _context.SaveChanges();
@@ -68,10 +69,12 @@ namespace NC_Module.Services.NonConfService
         {
             ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
 
-            NonConf nonConf = _context.nonConfs.FirstOrDefault(n => n.NonConfId == updateNonConfDto.Id);
+            NonConf nonConf = _context.nonConfs.FirstOrDefault(n => n.Id == updateNonConfDto.Id);
 
             nonConf.Status = updateNonConfDto.Status;
             _context.nonConfs.Update(nonConf);
+            _context.SaveChanges();
+            serviceResponse.Message = "This Nonconformity was closed.";
 
             if(nonConf.Status == 2)
             {
@@ -83,16 +86,17 @@ namespace NC_Module.Services.NonConfService
                 
                 _context.nonConfs.Add(newNonConf);
                 _context.SaveChanges();
-                newNonConf = _context.nonConfs.OrderByDescending(n => n.NonConfId).First();
+                newNonConf = _context.nonConfs.OrderByDescending(n => n.Id).First();
                 nonConfBll.NcCodeGenerator(newNonConf);
                 _context.SaveChanges();
-                serviceResponse.Message = "Uma outra versão desta NonConf foi criada. Verifique a lista.";
+                serviceResponse.Message = "This Nonconformity was closed. A new version of this Nonconformity was create with Code: " + newNonConf.Code;
             }
 
             serviceResponse.Data = _mapper.Map<GetNonConfDto>(nonConf);
 
             return serviceResponse;
-            
         }
+
+        
     }
 }
