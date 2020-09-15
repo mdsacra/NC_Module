@@ -11,7 +11,7 @@ namespace NC_Module.BLL.NonConfBLL
     public class NonConfBLL
     {
 
-        public void NcCodeGenerator(NonConf nonConf)
+        public static void NcCodeGenerator(NonConf nonConf)
         {
             
             nonConf.Code = nonConf.Date.Year.ToString()

@@ -24,11 +24,20 @@ namespace NC_Module.Services.CorrActionService
         {
             ServiceResponse<CorrActionDto> serviceResponse = new ServiceResponse<CorrActionDto>();
 
-            _context.corrActions.Add(_mapper.Map<CorrAction>(corrAction));
-            _context.SaveChanges();
+            try
+            {
+                _context.corrActions.Add(_mapper.Map<CorrAction>(corrAction));
+                _context.SaveChanges();
 
-            serviceResponse.Data = _mapper.Map<CorrActionDto>(corrAction);
-            serviceResponse.Message = "The CorrAction was succesfull save.";
+                serviceResponse.Data = _mapper.Map<CorrActionDto>(corrAction);
+                serviceResponse.Message = "A Ação foi criada com sucesso!";
+            }
+            catch(Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Não foi possível criar a nova Ação. Exception: " + ex;
+            }
+            
 
             return serviceResponse;
         }
@@ -37,7 +46,7 @@ namespace NC_Module.Services.CorrActionService
         {
             ServiceResponse<List<CorrActionDto>> serviceResponse = new ServiceResponse<List<CorrActionDto>>();
 
-            serviceResponse.Data = _context.corrActions.Select(c => _mapper.Map<CorrActionDto>(c)).ToList();
+                serviceResponse.Data = _context.corrActions.Select(c => _mapper.Map<CorrActionDto>(c)).ToList();
 
             return serviceResponse;
         }
@@ -46,8 +55,16 @@ namespace NC_Module.Services.CorrActionService
         {
             ServiceResponse<CorrActionDto> serviceResponse = new ServiceResponse<CorrActionDto>();
 
-
-            serviceResponse.Data = _mapper.Map<CorrActionDto>(_context.corrActions.FirstOrDefault(c => c.Id == id));
+            try
+            {
+                serviceResponse.Data = _mapper.Map<CorrActionDto>(_context.corrActions.FirstOrDefault(c => c.Id == id));
+                
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Impossível processar a requisição. Exception: " + ex;
+            }
 
             return serviceResponse;
         }

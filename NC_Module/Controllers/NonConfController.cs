@@ -22,29 +22,58 @@ namespace NC_Module.Controllers
             _nonConfService = nonConfService;
         }
 
-        [Route("all")]
-        public IActionResult Get()
-        {
-            return Ok(_nonConfService.GetAllNonConf()); 
-        }
 
         [Route("{Id}")]
-        public IActionResult GetSingle(int id)
+        public IActionResult GetById(int id)
         {
-            return Ok(_nonConfService.GetNonConfById(id));
+            ServiceResponse<GetNonConfDto> serviceResponse = _nonConfService.GetNonConfById(id);
+            if (serviceResponse.Data == null)
+            {
+                serviceResponse.Message = "A NC solicitada não foi encontrada ou não existe!";
+                serviceResponse.Success = false;
+                return NotFound(serviceResponse.Message);
+
+            }
+
+            return Ok(serviceResponse.Data);
         }
+
+
+        [Route("All")]
+        public IActionResult Get()
+        {
+            if (_nonConfService.GetAllNonConf().Data.Count() == 0)
+            {
+                return NoContent();
+            }
+            return Ok(_nonConfService.GetAllNonConf().Data);
+        }
+
+        
 
         [HttpPost]
         public IActionResult Post(NonConf nonConf)
         {
-            return Ok(_nonConfService.AddNonConf(nonConf));
+            ServiceResponse<GetNonConfDto> serviceResponse = _nonConfService.AddNonConf(nonConf);
+
+            if (serviceResponse.Data == null)
+            {
+                return BadRequest(serviceResponse.Message);
+            }
+            return Ok(serviceResponse);
         }
 
         [HttpPut]
         public IActionResult Put(UpdateNonConfDto updateNonConfDto)
         {
-            return Ok(_nonConfService.EvaluateNonConf(updateNonConfDto));
+            ServiceResponse<GetNonConfDto> serviceResponse = _nonConfService.EvaluateNonConf(updateNonConfDto);
 
+            if (serviceResponse.Data == null)
+            {
+                return BadRequest(serviceResponse.Message);
+            }
+
+            return Ok(serviceResponse);
         }
 
     }

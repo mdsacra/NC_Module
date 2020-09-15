@@ -24,20 +24,28 @@ namespace NC_Module.Services.NonConfCorrActionsService
         {
             ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
 
-            NonConf nonConf = _context.nonConfs.FirstOrDefault(n => n.Id == nonConfCorrActions.NonconfId);
-
-            CorrAction corrAction = _context.corrActions.FirstOrDefault(c => c.Id == nonConfCorrActions.CorractionId);
-
-            NonConfCorrActions newNonConfCorrActions = new NonConfCorrActions
+            try
             {
-                NonConf = nonConf,
-                CorrAction = corrAction
-            };
+                NonConf nonConf = _context.nonConfs.FirstOrDefault(n => n.Id == nonConfCorrActions.NonconfId);
 
-            _context.nonConfCorrActions.Add(newNonConfCorrActions);
-            _context.SaveChanges();
+                CorrAction corrAction = _context.corrActions.FirstOrDefault(c => c.Id == nonConfCorrActions.CorractionId);
 
-            serviceResponse.Data = _mapper.Map<GetNonConfDto>(nonConf);
+                NonConfCorrActions newNonConfCorrActions = new NonConfCorrActions
+                {
+                    NonConf = nonConf,
+                    CorrAction = corrAction
+                };
+
+                _context.nonConfCorrActions.Add(newNonConfCorrActions);
+                _context.SaveChanges();
+
+                serviceResponse.Data = _mapper.Map<GetNonConfDto>(nonConf);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Não foi possível processar a requisição. Exception: " + ex.Message;
+            }
 
             return serviceResponse;
 

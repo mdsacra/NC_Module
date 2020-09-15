@@ -19,7 +19,6 @@ namespace NC_Module.Services.NonConfService
         
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public NonConfBLL nonConfBll = new NonConfBLL();
 
         public NonConfService(DataContext context, IMapper mapper)
         {
@@ -43,12 +42,20 @@ namespace NC_Module.Services.NonConfService
 
             ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
 
-            NonConf nonConf = _context.nonConfs
+            try
+            {
+                NonConf nonConf = _context.nonConfs
                 .Include(n => n.NonConfCorrActions)
                 .ThenInclude(nc => nc.CorrAction)
                 .FirstOrDefault(n => n.Id == id);
 
-            serviceResponse.Data = _mapper.Map<GetNonConfDto>(nonConf);
+                serviceResponse.Data = _mapper.Map<GetNonConfDto>(nonConf);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
             
             return serviceResponse;
         }
@@ -57,16 +64,25 @@ namespace NC_Module.Services.NonConfService
         {
             
             ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
-            
-            _context.nonConfs.Add(nonConf);
-            _context.SaveChanges();
 
-            nonConf = _context.nonConfs.OrderByDescending(n => n.Id).First();
+            try
+            {
+                _context.nonConfs.Add(nonConf);
+                _context.SaveChanges();
 
-            nonConfBll.NcCodeGenerator(nonConf);
-            _context.SaveChanges();
+                nonConf = _context.nonConfs.OrderByDescending(n => n.Id).First();
 
-            serviceResponse.Data = _mapper.Map<GetNonConfDto>(nonConf);
+                NonConfBLL.NcCodeGenerator(nonConf);
+                _context.SaveChanges();
+
+                serviceResponse.Message = "NC criada com sucesso.";
+                serviceResponse.Data = _mapper.Map<GetNonConfDto>(nonConf);
+            } 
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
 
             return serviceResponse;
         }
@@ -77,28 +93,44 @@ namespace NC_Module.Services.NonConfService
 
             NonConf nonConf = _context.nonConfs.FirstOrDefault(n => n.Id == updateNonConfDto.Id);
 
-            nonConf.Status = updateNonConfDto.Status;
-            _context.nonConfs.Update(nonConf);
-            _context.SaveChanges();
-            serviceResponse.Message = "This Nonconformity was closed.";
-
-            if(nonConf.Status == 2)
+            if (nonConf.Status != 0)
             {
-                NonConf newNonConf = new NonConf
-                {
-                    Description = nonConf.Description,
-                    Version = nonConf.Version + 1
-                };
-                
-                _context.nonConfs.Add(newNonConf);
-                _context.SaveChanges();
-                newNonConf = _context.nonConfs.OrderByDescending(n => n.Id).First();
-                nonConfBll.NcCodeGenerator(newNonConf);
-                _context.SaveChanges();
-                serviceResponse.Message = "This Nonconformity was closed. A new version of this Nonconformity was create with Code: " + newNonConf.Code;
+                serviceResponse.Message = "Esta NC já foi encerrada e não pode mais ser alterada.";
+                serviceResponse.Success = false;
+                return serviceResponse;
             }
 
-            serviceResponse.Data = _mapper.Map<GetNonConfDto>(nonConf);
+            try
+            {
+
+                nonConf.Status = updateNonConfDto.Status;
+                _context.nonConfs.Update(nonConf);
+                _context.SaveChanges();
+                serviceResponse.Message = "Esta NC foi encerrada.";
+
+                if (nonConf.Status == 2)
+                {
+                    NonConf newNonConf = new NonConf
+                    {
+                        Description = nonConf.Description,
+                        Version = nonConf.Version + 1
+                    };
+
+                    _context.nonConfs.Add(newNonConf);
+                    _context.SaveChanges();
+                    newNonConf = _context.nonConfs.OrderByDescending(n => n.Id).First();
+                    NonConfBLL.NcCodeGenerator(newNonConf);
+                    _context.SaveChanges();
+                    serviceResponse.Message = "Esta NC foi encerrada. Uma nova versão desta NC foi criada com o Código: " + newNonConf.Code;
+                }
+
+                serviceResponse.Data = _mapper.Map<GetNonConfDto>(nonConf);
+            } 
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
 
             return serviceResponse;
         }
