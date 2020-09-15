@@ -1,4 +1,6 @@
-﻿using NC_Module.Data;
+﻿using AutoMapper;
+using NC_Module.Data;
+using NC_Module.ModelDTO;
 using NC_Module.Models;
 using System;
 using System.Collections.Generic;
@@ -11,38 +13,41 @@ namespace NC_Module.Services.CorrActionService
     {
         
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public CorrActionService(DataContext context)
+        public CorrActionService(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-        public ServiceResponse<CorrAction> AddCorrAction(CorrAction corrAction)
+        public ServiceResponse<CorrActionDto> AddCorrAction(CorrActionDto corrAction)
         {
-            ServiceResponse<CorrAction> serviceResponse = new ServiceResponse<CorrAction>();
+            ServiceResponse<CorrActionDto> serviceResponse = new ServiceResponse<CorrActionDto>();
 
-            _context.corrActions.Add(corrAction);
+            _context.corrActions.Add(_mapper.Map<CorrAction>(corrAction));
             _context.SaveChanges();
 
-            serviceResponse.Data = corrAction;
+            serviceResponse.Data = _mapper.Map<CorrActionDto>(corrAction);
             serviceResponse.Message = "The CorrAction was succesfull save.";
 
             return serviceResponse;
         }
 
-        public ServiceResponse<List<CorrAction>> GetAllCorrActions()
+        public ServiceResponse<List<CorrActionDto>> GetAllCorrActions()
         {
-            ServiceResponse<List<CorrAction>> serviceResponse = new ServiceResponse<List<CorrAction>>();
+            ServiceResponse<List<CorrActionDto>> serviceResponse = new ServiceResponse<List<CorrActionDto>>();
 
-            serviceResponse.Data = _context.corrActions.ToList();
+            serviceResponse.Data = _context.corrActions.Select(c => _mapper.Map<CorrActionDto>(c)).ToList();
 
             return serviceResponse;
         }
 
-        public ServiceResponse<CorrAction> GetCorrActionById(int id)
+        public ServiceResponse<CorrActionDto> GetCorrActionById(int id)
         {
-            ServiceResponse<CorrAction> serviceResponse = new ServiceResponse<CorrAction>();
+            ServiceResponse<CorrActionDto> serviceResponse = new ServiceResponse<CorrActionDto>();
 
-            serviceResponse.Data = _context.corrActions.FirstOrDefault(c => c.Id == id);
+
+            serviceResponse.Data = _mapper.Map<CorrActionDto>(_context.corrActions.FirstOrDefault(c => c.Id == id));
 
             return serviceResponse;
         }

@@ -17,6 +17,6 @@ namespace NC_Module.ModelDTO
         public string Code { get; set; }
         public int Status { get; set; }
         public string Description { get; set; }
-        public List<CorrAction> CorrActions { get; set; }
+        public List<CorrActionDto> CorrActions { get; set; }
     }
 }

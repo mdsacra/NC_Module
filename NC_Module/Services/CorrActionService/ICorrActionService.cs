@@ -1,4 +1,5 @@
-﻿using NC_Module.Models;
+﻿using NC_Module.ModelDTO;
+using NC_Module.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,11 @@ namespace NC_Module.Services.CorrActionService
 {
     public interface ICorrActionService
     {
-        ServiceResponse<CorrAction> AddCorrAction(CorrAction corrAction);
+        ServiceResponse<CorrActionDto> AddCorrAction(CorrActionDto corrAction);
 
-        ServiceResponse<CorrAction> GetCorrActionById(int id);
+        ServiceResponse<CorrActionDto> GetCorrActionById(int id);
 
-        ServiceResponse<List<CorrAction>> GetAllCorrActions();
+        ServiceResponse<List<CorrActionDto>> GetAllCorrActions();
 
     }
 }

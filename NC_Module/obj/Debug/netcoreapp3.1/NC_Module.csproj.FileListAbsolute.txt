@@ -133,4 +133,7 @@ C:\Users\Matheus\repositorios\NC_Module\NC_Module\bin\Debug\netcoreapp3.1\AutoMa
 C:\Users\Matheus\repositorios\NC_Module\NC_Module\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\Matheus\repositorios\NC_Module\NC_Module\obj\Debug\netcoreapp3.1\NC_Module.csproj.CoreCompileInputs.cache
 C:\Users\Matheus\repositorios\NC_Module\NC_Module\obj\Debug\netcoreapp3.1\NC_Module.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Matheus\repositorios\NC_Module\NC_Module\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Matheus\repositorios\NC_Module\NC_Module\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\Matheus\repositorios\NC_Module\NC_Module\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 C:\Users\Matheus\repositorios\NC_Module\NC_Module\obj\Debug\netcoreapp3.1\NC_Module.csprojAssemblyReference.cache

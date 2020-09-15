@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NC_Module.BLL.NonConfBLL;
@@ -42,7 +43,12 @@ namespace NC_Module.Services.NonConfService
 
             ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
 
-            serviceResponse.Data = _mapper.Map<GetNonConfDto>(_context.nonConfs.FirstOrDefault(n => n.Id == id));
+            NonConf nonConf = _context.nonConfs
+                .Include(n => n.NonConfCorrActions)
+                .ThenInclude(nc => nc.CorrAction)
+                .FirstOrDefault(n => n.Id == id);
+
+            serviceResponse.Data = _mapper.Map<GetNonConfDto>(nonConf);
             
             return serviceResponse;
         }

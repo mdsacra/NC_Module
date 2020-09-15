@@ -17,6 +17,7 @@ using NC_Module.Services.CorrActionService;
 using NC_Module.Services.NonConfCorrActionsService;
 using NC_Module.Services.NonConfService;
 
+
 namespace NC_Module
 {
     public class Startup
@@ -33,11 +34,13 @@ namespace NC_Module
         {
 
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddScoped<INonConfService, NonConfService>();
             services.AddScoped<INonConfCorrActionsService, NonConfCorrActionsService>();
             services.AddScoped<ICorrActionService, CorrActionService>();
             services.AddAutoMapper(typeof(Startup));
+            
 
         }
 

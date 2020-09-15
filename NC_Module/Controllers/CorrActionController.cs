@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
+using NC_Module.ModelDTO;
 using NC_Module.Models;
 using NC_Module.Services.CorrActionService;
 
@@ -36,7 +37,7 @@ namespace NC_Module.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CorrAction corrAction)
+        public IActionResult Post(CorrActionDto corrAction)
         {
             return Ok(_corrActionService.AddCorrAction(corrAction));
 
