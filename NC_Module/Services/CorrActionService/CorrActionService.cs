@@ -21,6 +21,7 @@ namespace NC_Module.Services.CorrActionService
             ServiceResponse<CorrAction> serviceResponse = new ServiceResponse<CorrAction>();
 
             _context.corrActions.Add(corrAction);
+            _context.SaveChanges();
 
             serviceResponse.Data = corrAction;
             serviceResponse.Message = "The CorrAction was succesfull save.";

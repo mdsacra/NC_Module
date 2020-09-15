@@ -10,7 +10,7 @@ using NC_Module.Services.NonConfService;
 
 namespace NC_Module.Controllers
 {
-    [Route("v1/nonconf")]
+    [Route("[controller]")]
     [ApiController]
     public class NonConfController : ControllerBase
     {

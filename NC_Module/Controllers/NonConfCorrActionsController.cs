@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace NC_Module.Controllers
 {
     [ApiController]
-    [Route("v1/[controller]")]
+    [Route("[controller]")]
     public class NonConfCorrActionsController : ControllerBase
     {
         private readonly INonConfCorrActionsService _nonConfCorrActionsService;
