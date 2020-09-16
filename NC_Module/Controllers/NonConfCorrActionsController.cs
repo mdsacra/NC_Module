@@ -22,7 +22,7 @@ namespace NC_Module.Controllers
         }
         
         [HttpPost]
-        public IActionResult AddNonConfCorrAction(NonConfCorrActionDto newNonConfCorrAction)
+        public IActionResult AddNonConfCorrAction(NonConfCorrActionsDto newNonConfCorrAction)
         {
             ServiceResponse<GetNonConfDto> serviceResponse = _nonConfCorrActionsService.AddNonConfCorrActions(newNonConfCorrAction);
             

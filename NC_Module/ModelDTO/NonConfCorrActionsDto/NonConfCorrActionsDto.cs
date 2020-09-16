@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NC_Module.ModelDTO.NonConfCorrActionsDto
 {
-    public class NonConfCorrActionDto
+    public class NonConfCorrActionsDto
     {
 
         public int NonconfId { get; set; }

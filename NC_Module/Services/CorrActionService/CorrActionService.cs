@@ -55,9 +55,18 @@ namespace NC_Module.Services.CorrActionService
         {
             ServiceResponse<CorrActionDto> serviceResponse = new ServiceResponse<CorrActionDto>();
 
+            CorrAction corrAction = _context.corrActions.FirstOrDefault(c => c.Id == id);
+
+            if (corrAction == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "A CorrAction não foi encontrada.";
+                return serviceResponse;
+            }
+
             try
             {
-                serviceResponse.Data = _mapper.Map<CorrActionDto>(_context.corrActions.FirstOrDefault(c => c.Id == id));
+                serviceResponse.Data = _mapper.Map<CorrActionDto>(corrAction);
                 
             }
             catch (Exception ex)

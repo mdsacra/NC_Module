@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NC_Module.BLL.NonConfBLL;
 using NC_Module.Data;
 using NC_Module.ModelDTO;
@@ -19,6 +20,8 @@ namespace NC_Module.Services.NonConfService
         
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
+
 
         public NonConfService(DataContext context, IMapper mapper)
         {
@@ -39,8 +42,6 @@ namespace NC_Module.Services.NonConfService
 
         public ServiceResponse<GetNonConfDto> GetNonConfById(int id)
         {
-
-            ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
 
             if(_context.nonConfs.Find(id) == null)
             {
@@ -71,8 +72,6 @@ namespace NC_Module.Services.NonConfService
         public ServiceResponse<GetNonConfDto> AddNonConf(NonConf nonConf)
         {
             
-            ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
-
             try
             {
                 _context.nonConfs.Add(nonConf);
@@ -97,8 +96,7 @@ namespace NC_Module.Services.NonConfService
 
         public ServiceResponse<GetNonConfDto> EvaluateNonConf(UpdateNonConfDto updateNonConfDto)
         {
-            ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
-
+            
             if (_context.nonConfs.Find(updateNonConfDto.Id) == null)
             {
                 serviceResponse.Message = "Esta NC não existe.";
@@ -148,8 +146,11 @@ namespace NC_Module.Services.NonConfService
             }
 
             return serviceResponse;
+
+            
         }
 
+         
         
     }
 }

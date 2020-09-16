@@ -20,16 +20,29 @@ namespace NC_Module.Services.NonConfCorrActionsService
             _context = context;
             _mapper = mapper;
         }
-        public ServiceResponse<GetNonConfDto> AddNonConfCorrActions(NonConfCorrActionDto nonConfCorrActions)
+        public ServiceResponse<GetNonConfDto> AddNonConfCorrActions(NonConfCorrActionsDto nonConfCorrActions)
         {
             ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
+            
+            NonConf nonConf = _context.nonConfs.FirstOrDefault(n => n.Id == nonConfCorrActions.NonconfId);
+
+            CorrAction corrAction = _context.corrActions.FirstOrDefault(c => c.Id == nonConfCorrActions.CorractionId);
+
+            if (nonConf == null || corrAction == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "NC ou CorrAction não existe.";
+                return serviceResponse;
+            }
+
+            if (nonConf.Status != 0)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Esta NC já está encerrada e não pode ser alterada.";
+            }
 
             try
             {
-                NonConf nonConf = _context.nonConfs.FirstOrDefault(n => n.Id == nonConfCorrActions.NonconfId);
-
-                CorrAction corrAction = _context.corrActions.FirstOrDefault(c => c.Id == nonConfCorrActions.CorractionId);
-
                 NonConfCorrActions newNonConfCorrActions = new NonConfCorrActions
                 {
                     NonConf = nonConf,

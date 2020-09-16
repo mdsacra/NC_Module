@@ -10,6 +10,6 @@ namespace NC_Module.Services.NonConfCorrActionsService
 {
     public interface INonConfCorrActionsService
     {
-        ServiceResponse<GetNonConfDto> AddNonConfCorrActions(NonConfCorrActionDto nonConfCorrActions);
+        ServiceResponse<GetNonConfDto> AddNonConfCorrActions(NonConfCorrActionsDto nonConfCorrActions);
     }
 }

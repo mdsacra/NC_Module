@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Interfaces;
+using NC_Module.Data;
 using NC_Module.ModelDTO;
 using NC_Module.Models;
 using NC_Module.Services.NonConfService;
@@ -13,19 +14,15 @@ namespace NC_Module_Test
 {
     public class NonConfTest : IClassFixture<FixturesTestNonConf>
     {
-
+        
         private INonConfService _nonConfService;
         private ServiceResponse<GetNonConfDto> _serviceResponse;
-        private DbContext _context;
-
-        
         
         public NonConfTest(FixturesTestNonConf fixture)
         {
             _nonConfService = fixture.ServiceProvider.GetRequiredService<INonConfService>();
+            
 
-            
-            
         }
 
 
@@ -60,9 +57,9 @@ namespace NC_Module_Test
         {
             _serviceResponse = _nonConfService.AddNonConf(new NonConf());
             
-            int id = _serviceResponse.Data.Id;
+            int id = _nonConfService.GetNonConfById(1).Data.Id;
 
-            Assert.Equal(4, _nonConfService.GetNonConfById(id).Data.Id);
+            Assert.Equal(1, id);
         }
 
         [Fact]
@@ -79,10 +76,14 @@ namespace NC_Module_Test
         [Fact]
         public void Get_ShouldReturnAllNonConfsInList()
         {
-            
-            var listNonConf = _nonConfService.GetAllNonConf();
+            _nonConfService.AddNonConf(new NonConf());
+            _nonConfService.AddNonConf(new NonConf());
+            _nonConfService.AddNonConf(new NonConf());
 
-            Assert.Equal(6, listNonConf.Data.Count);
+            var listNonConf = _nonConfService.GetAllNonConf().Data;
+
+            
+            Assert.Equal(3, listNonConf.Count);
         }
 
         [Fact]
@@ -101,7 +102,7 @@ namespace NC_Module_Test
         {
             _nonConfService.AddNonConf(new NonConf(){ Status = 1 });
 
-            UpdateNonConfDto upNc = new UpdateNonConfDto() { Id = 8, Status = 0 };
+            UpdateNonConfDto upNc = new UpdateNonConfDto() { Id = 1, Status = 0 };
 
             _serviceResponse = _nonConfService.EvaluateNonConf(upNc);
 
@@ -113,26 +114,25 @@ namespace NC_Module_Test
         {
             _nonConfService.AddNonConf(new NonConf());
             
-            UpdateNonConfDto upNc = new UpdateNonConfDto() { Id = 9, Status = 2 };
+            UpdateNonConfDto upNc = new UpdateNonConfDto() { Id = 1, Status = 2 };
 
             _serviceResponse = _nonConfService.EvaluateNonConf(upNc);
+            GetNonConfDto nonConfDto = _nonConfService.GetNonConfById(2).Data;
 
-            Assert.Equal("2020:010:02", _serviceResponse.Data.Code);
+            Assert.Equal("2020:02:02", nonConfDto.Code);
         }
 
         [Fact]
         public void Put_ShouldCloseCurrentNc()
         {
             _nonConfService.AddNonConf(new NonConf());
-            UpdateNonConfDto upNc = new UpdateNonConfDto() { Id = 10, Status = 1 };
+            UpdateNonConfDto upNc = new UpdateNonConfDto() { Id = 1, Status = 1 };
 
             _serviceResponse = _nonConfService.EvaluateNonConf(upNc);
 
             Assert.Contains("encerrada", _serviceResponse.Message);
 
         }
-
-        internal void DeleteDb() => _context.Database.EnsureDeleted();
         
     }
 }
