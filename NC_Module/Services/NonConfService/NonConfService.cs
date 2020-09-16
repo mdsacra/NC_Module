@@ -42,6 +42,14 @@ namespace NC_Module.Services.NonConfService
 
             ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
 
+            if(_context.nonConfs.Find(id) == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "O Id indicado não existe.";
+                return serviceResponse;
+                
+            }
+
             try
             {
                 NonConf nonConf = _context.nonConfs
@@ -90,6 +98,13 @@ namespace NC_Module.Services.NonConfService
         public ServiceResponse<GetNonConfDto> EvaluateNonConf(UpdateNonConfDto updateNonConfDto)
         {
             ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
+
+            if (_context.nonConfs.Find(updateNonConfDto.Id) == null)
+            {
+                serviceResponse.Message = "Esta NC não existe.";
+                serviceResponse.Success = false;
+                return serviceResponse;
+            }
 
             NonConf nonConf = _context.nonConfs.FirstOrDefault(n => n.Id == updateNonConfDto.Id);
 
