@@ -29,8 +29,7 @@ namespace NC_Module.Controllers
             ServiceResponse<GetNonConfDto> serviceResponse = _nonConfService.GetNonConfById(id);
             if (serviceResponse.Data == null)
             {
-                serviceResponse.Message = "A NC solicitada não foi encontrada ou não existe!";
-                serviceResponse.Success = false;
+                
                 return NotFound(serviceResponse.Message);
 
             }

@@ -2,8 +2,6 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using NC_Module.BLL.NonConfBLL;
 using NC_Module.Data;
 using NC_Module.ModelDTO;
 using NC_Module.Models;
@@ -31,25 +29,19 @@ namespace NC_Module.Services.NonConfService
 
         public ServiceResponse<List<GetNonConfDto>> GetAllNonConf()
         {
-            ServiceResponse<List<GetNonConfDto>> serviceResponse = new ServiceResponse<List<GetNonConfDto>>();
-
-            serviceResponse.Data = _context.nonConfs.Select(n => _mapper.Map<GetNonConfDto>(n)).ToList();
+            ServiceResponse<List<GetNonConfDto>> serviceResponse = new ServiceResponse<List<GetNonConfDto>>()
+            {
+                Data = _context.nonConfs.Select(n => _mapper.Map<GetNonConfDto>(n)).ToList()
+            };
 
             return serviceResponse;
             
         }
 
-
         public ServiceResponse<GetNonConfDto> GetNonConfById(int id)
         {
 
-            if(_context.nonConfs.Find(id) == null)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = "O Id indicado não existe.";
-                return serviceResponse;
-                
-            }
+            NonConfIdValidator(id);
 
             try
             {
@@ -63,7 +55,7 @@ namespace NC_Module.Services.NonConfService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = "Impossível processar a requisição. Exception: " + ex;
             }
             
             return serviceResponse;
@@ -79,7 +71,7 @@ namespace NC_Module.Services.NonConfService
 
                 nonConf = _context.nonConfs.OrderByDescending(n => n.Id).First();
 
-                NonConfBLL.NcCodeGenerator(nonConf);
+                CodeGenerator(nonConf);
                 _context.SaveChanges();
 
                 serviceResponse.Message = "NC criada com sucesso.";
@@ -88,7 +80,7 @@ namespace NC_Module.Services.NonConfService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = "Não foi possível criar a nova NC. Exception: " + ex;
             }
 
             return serviceResponse;
@@ -96,22 +88,12 @@ namespace NC_Module.Services.NonConfService
 
         public ServiceResponse<GetNonConfDto> EvaluateNonConf(UpdateNonConfDto updateNonConfDto)
         {
-            
-            if (_context.nonConfs.Find(updateNonConfDto.Id) == null)
-            {
-                serviceResponse.Message = "Esta NC não existe.";
-                serviceResponse.Success = false;
-                return serviceResponse;
-            }
+
+            NonConfIdValidator(updateNonConfDto.Id);
 
             NonConf nonConf = _context.nonConfs.FirstOrDefault(n => n.Id == updateNonConfDto.Id);
 
-            if (nonConf.Status != 0)
-            {
-                serviceResponse.Message = "Esta NC já foi encerrada e não pode mais ser alterada.";
-                serviceResponse.Success = false;
-                return serviceResponse;
-            }
+            NcIsOpen(nonConf);
 
             try
             {
@@ -132,7 +114,7 @@ namespace NC_Module.Services.NonConfService
                     _context.nonConfs.Add(newNonConf);
                     _context.SaveChanges();
                     newNonConf = _context.nonConfs.OrderByDescending(n => n.Id).First();
-                    NonConfBLL.NcCodeGenerator(newNonConf);
+                    CodeGenerator(newNonConf);
                     _context.SaveChanges();
                     serviceResponse.Message = "Esta NC foi encerrada. Uma nova versão desta NC foi criada com o Código: " + newNonConf.Code;
                 }
@@ -150,6 +132,38 @@ namespace NC_Module.Services.NonConfService
             
         }
 
+
+        private ServiceResponse<GetNonConfDto> NonConfIdValidator(int id)
+        {
+            if (_context.nonConfs.Find(id) == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "A NC requisitada não existe.";
+                return serviceResponse;
+            }
+
+            return serviceResponse;
+        }
+
+        private void CodeGenerator(NonConf nonConf)
+        {
+            nonConf.Code = nonConf.Date.Year.ToString()
+                + ":0" + nonConf.Id.ToString()
+                + ":0" + nonConf.Version.ToString();
+        }
+
+        private ServiceResponse<GetNonConfDto> NcIsOpen(NonConf nonConf)
+        {
+            if (nonConf.Status != 0)
+            {
+                serviceResponse.Message = "Esta NC já foi encerrada e não pode mais ser alterada.";
+                serviceResponse.Success = false;
+                return serviceResponse;
+            }
+
+            return serviceResponse;
+
+        }
          
         
     }

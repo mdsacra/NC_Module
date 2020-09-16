@@ -1,5 +1,4 @@
-﻿using NC_Module.BLL;
-using NC_Module.Models;
+﻿using NC_Module.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

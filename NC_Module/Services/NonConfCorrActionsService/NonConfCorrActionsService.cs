@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NC_Module.Data;
 using NC_Module.ModelDTO;
 using NC_Module.ModelDTO.NonConfCorrActionsDto;
@@ -14,31 +15,23 @@ namespace NC_Module.Services.NonConfCorrActionsService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
 
         public NonConfCorrActionsService(DataContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
+
         public ServiceResponse<GetNonConfDto> AddNonConfCorrActions(NonConfCorrActionsDto nonConfCorrActions)
         {
-            ServiceResponse<GetNonConfDto> serviceResponse = new ServiceResponse<GetNonConfDto>();
             
-            NonConf nonConf = _context.nonConfs.FirstOrDefault(n => n.Id == nonConfCorrActions.NonconfId);
+            NonConf nonConf = _context.nonConfs.Find(nonConfCorrActions.NonconfId);
+            CorrAction corrAction = _context.corrActions.Find(nonConfCorrActions.CorractionId);
 
-            CorrAction corrAction = _context.corrActions.FirstOrDefault(c => c.Id == nonConfCorrActions.CorractionId);
-
-            if (nonConf == null || corrAction == null)
+            if (NonConfCorrActionsValidator(nonConf, corrAction) == false)
             {
-                serviceResponse.Success = false;
-                serviceResponse.Message = "NC ou CorrAction não existe.";
                 return serviceResponse;
-            }
-
-            if (nonConf.Status != 0)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = "Esta NC já está encerrada e não pode ser alterada.";
             }
 
             try
@@ -61,6 +54,33 @@ namespace NC_Module.Services.NonConfCorrActionsService
             }
 
             return serviceResponse;
+        
+        }
+
+
+
+        private bool NonConfCorrActionsValidator(NonConf nonConf, CorrAction corrAction)
+        {
+            if (nonConf == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "A NC não existe.";
+                return false;
+            }
+            else if (corrAction == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "A Ação não existe.";
+                return false;
+            }
+            else if (nonConf.Status != 0)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Esta NC está encerrada e não pode ser alterada.";
+                return false;
+            }
+
+            return true;
 
 
         }
