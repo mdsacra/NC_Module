@@ -21,10 +21,8 @@ O projeto **Módulo de Não-conformidades** tem como objetivo apresentar o desen
 - Buscar Não-conformidades
 
 ### 2. Como Executar
-Basta clonar o repositório com o comando abaixo:
-#
-```git clone https://github.com/mdsacra/NC_Module.git```
-#
+Basta clonar o repositório com o comando abaixo:<br>
+```git clone https://github.com/mdsacra/NC_Module.git```<br>
  A seguir, tendo o .NET Core corretamente instalado no computador, executar o arquivo **NC_Module.exe**, que encontra-se em ```NC_Module/bin/release/netcoreapp3.1```. A aplicação subirá o servidor em ```localhost:\\5000```. Sugere-se utilizar o programa *Postman* para realizar os testes de requisição.
 
 ### 3. Entidades
