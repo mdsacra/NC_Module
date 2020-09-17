@@ -52,6 +52,17 @@ namespace NC_Module_Test
             Assert.Equal(0, _serviceResponse.Data.Status);
         }
 
+        [Fact]
+        public void Post_ShouldReturnErrorIfStatusGreaterThen2()
+        {
+            _serviceResponse = _nonConfService.AddNonConf(new NonConf()
+            {
+                Status = 3
+            });
+
+            Assert.False(_serviceResponse.Success);
+        }
+
 
         [Fact]
         public void Get_ShouldReturnCorrectNonConfById()

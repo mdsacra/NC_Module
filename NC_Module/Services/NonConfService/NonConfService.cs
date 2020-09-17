@@ -66,6 +66,11 @@ namespace NC_Module.Services.NonConfService
 
         public ServiceResponse<GetNonConfDto> AddNonConf(NonConf nonConf)
         {
+            
+            if (StatusValidator(nonConf.Status) == false)
+            {
+                return serviceResponse;
+            }
 
             try
             {
@@ -162,6 +167,7 @@ namespace NC_Module.Services.NonConfService
             {
                 serviceResponse.Message = "O valor de Status é invalido. [1 - Eficaz] [2 - Ineficaz]";
                 serviceResponse.Success = false;
+                return false;
             }
 
 
