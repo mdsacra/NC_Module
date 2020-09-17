@@ -1,7 +1,7 @@
 # Módulo de Não-Conformidades
 ##### Teste prático para a vaga de Desenvolvedor na QualyTeam
 ###### Matheus Duarte Sacramento
-###### Contatos: [Email](mdsacra@gmail.com) -- [Linkedin](http://linkedin.com/in/mdsacra)
+###### Contatos: [Email](mdsacra@gmail.com) - [Linkedin](http://linkedin.com/in/mdsacra)
 ---
 ### Sumário
 1) Sobre o projeto
@@ -21,9 +21,9 @@ O projeto **Módulo de Não-conformidades** tem como objetivo apresentar o desen
 - Buscar Não-conformidades
 
 ### 2. Como Executar
-Um arquivo *.rar* está disponível [neste link](www.algo.com) com a seção executável da aplicação. Basta realizar o download, descompactar e executar o arquivo **NC_Module.exe** que o serividor será ativado no endereço **localhost://5000**. Sugere-se a utilização do aplicativo *Postman* para realizar as requisições HTTP. O projeto possui um arquivo de Banco de Dados SQLServer, para realização dos testes, portanto pode ser gerenciado através do *SSMS*.
-Caso houver interesse no projeto completo, basta clonar o repositório do *Github* com o comando abaixo:
-```git clone https://github.com/mdsacra/NC_Module.git```
+Basta clonar o repositório com o comando abaixo:<br><br>
+```git clone https://github.com/mdsacra/NC_Module.git```<br><br><br>
+ A seguir, tendo o .NET Core corretamente instalado no computador, executar o arquivo **NC_Module.exe**, que encontra-se em ```NC_Module/bin/release/netcoreapp3.1```. A aplicação subirá o servidor em ```localhost://5000```. Sugere-se utilizar o programa *Postman* para realizar os testes de requisição.
 
 ### 3. Entidades
 As duas entidades que foram desenvolvidas no projeto foram **NonConf**, para não conformidades, e **CorrAction**, para as Ações de Correção.
@@ -32,11 +32,11 @@ Vale destacar que:
 - **CorrAction** possui um atributo **_Description_**, que é obrigatório.
 ### 4. Endpoints
 Segue a lista dos *Endpoints* do projeto para requisições HTTP:
-- Não-conformidades
--- [**GET**]: ```/NonConf/{Id}``` -> Buscar uma Não-conformidade específica através de sua Id.
--- [**GET**]: ```/NonConf/{All}``` -> Buscar a lista de todas as Não-conformidades
--- [**POST**]: ```/NonConf``` -> Salva uma nova Não-conformidade.
--- [**PUT**]:```/NonConf``` ->  Este método é somente para Avaliação da Não-conformidade, portanto é necessário passar os atributos **_Id_** e **_Status_** no corpo da requisição, conforme abaixo:
+##### Não-conformidades
+- [**GET**]: ```/NonConf/{Id}``` -> Buscar uma Não-conformidade específica através de sua Id.
+- [**GET**]: ```/NonConf/{All}``` -> Buscar a lista de todas as Não-conformidades
+- [**POST**]: ```/NonConf``` -> Salva uma nova Não-conformidade.
+- [**PUT**]:```/NonConf``` ->  Este método é somente para Avaliação da Não-conformidade, portanto é necessário passar os atributos **_Id_** e **_Status_** no corpo da requisição, conforme abaixo:
 ```
 {
     "Id":1,
@@ -44,13 +44,13 @@ Segue a lista dos *Endpoints* do projeto para requisições HTTP:
 }
 ```
 
-- Ações de Correção
--- [**GET**]: ```/CorrAction/{Id}``` -> Buscar uma Ação específica através de sua Id.
--- [**GET**]: ```/CorrAction/{All}``` -> Buscar a lista de todas as Ações
--- [**POST**]: ```/CorrAction``` -> Salva uma nova Ação.
+##### Ações de Correção
+- [**GET**]: ```/CorrAction/{Id}``` -> Buscar uma Ação específica através de sua Id.
+- [**GET**]: ```/CorrAction/{All}``` -> Buscar a lista de todas as Ações
+- [**POST**]: ```/CorrAction``` -> Salva uma nova Ação.
 
-- Inserção das Ações de Correção nas Não-conformidades
--- [**POST**]: ```/NonConfCorrActions``` -> Vincula uma Ação a uma Não-conformidade, para isto, basta passar no corpo da requisição o **_Id_** da Não conformidade (atributo **_NonconfId_**) e o **_Id_** da Ação (atributo **_CorractionId_**), conforme abaixo:
+##### Inserção das Ações de Correção nas Não-conformidades
+- [**POST**]: ```/NonConfCorrActions``` -> Vincula uma Ação a uma Não-conformidade, para isto, basta passar no corpo da requisição o **_Id_** da Não conformidade (atributo **_NonconfId_**) e o **_Id_** da Ação (atributo **_CorractionId_**), conforme abaixo:
 ```
 {
     "NonconfId":1,
