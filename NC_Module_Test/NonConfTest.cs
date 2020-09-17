@@ -117,7 +117,7 @@ namespace NC_Module_Test
             
             UpdateNonConfDto upNc = new UpdateNonConfDto() { Id = 1, Status = 2 };
 
-            _serviceResponse = _nonConfService.EvaluateNonConf(upNc);
+            _nonConfService.EvaluateNonConf(upNc);
             GetNonConfDto nonConfDto = _nonConfService.GetNonConfById(2).Data;
 
             Assert.Equal("2020:02:02", nonConfDto.Code);

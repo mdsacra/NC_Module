@@ -33,7 +33,7 @@ namespace NC_Module
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase(databaseName: "dbnonconf"));
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddScoped<INonConfService, NonConfService>();

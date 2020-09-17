@@ -26,6 +26,8 @@ namespace NC_Module.Data
                 .HasKey(ncca => new { ncca.NonconfId, ncca.CorractionId });
         }
 
+        
+
 
     }
 }
