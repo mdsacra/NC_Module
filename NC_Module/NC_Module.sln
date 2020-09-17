@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NC_Module", "NC_Module.csproj", "{6160C0CE-8227-4322-AADE-AA79155324F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NC_Module_Test", "..\NC_Module_Test\NC_Module_Test.csproj", "{9285B9A2-E6F1-4FEA-BD24-7736CDB3B8DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NC_Module_Test", "..\NC_Module_Test\NC_Module_Test.csproj", "{9285B9A2-E6F1-4FEA-BD24-7736CDB3B8DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

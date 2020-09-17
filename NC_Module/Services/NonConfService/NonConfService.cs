@@ -41,7 +41,10 @@ namespace NC_Module.Services.NonConfService
         public ServiceResponse<GetNonConfDto> GetNonConfById(int id)
         {
 
-            NonConfIdValidator(id);
+            if (NonConfIdValidator(id) == false)
+            {
+                return serviceResponse;
+            }
 
             try
             {
@@ -89,11 +92,17 @@ namespace NC_Module.Services.NonConfService
         public ServiceResponse<GetNonConfDto> EvaluateNonConf(UpdateNonConfDto updateNonConfDto)
         {
 
-            NonConfIdValidator(updateNonConfDto.Id);
+            if (NonConfIdValidator(updateNonConfDto.Id) == false)
+            {
+                return serviceResponse;
+            }
 
             NonConf nonConf = _context.nonConfs.FirstOrDefault(n => n.Id == updateNonConfDto.Id);
 
-            NcIsOpen(nonConf);
+            if (NcIsOpen(nonConf.Status) == false)
+            {
+                return serviceResponse;
+            }
 
             try
             {
@@ -133,16 +142,16 @@ namespace NC_Module.Services.NonConfService
         }
 
 
-        private ServiceResponse<GetNonConfDto> NonConfIdValidator(int id)
+        private bool NonConfIdValidator(int id)
         {
             if (_context.nonConfs.Find(id) == null)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = "A NC requisitada não existe.";
-                return serviceResponse;
+                return false;
             }
 
-            return serviceResponse;
+            return true;
         }
 
         private void CodeGenerator(NonConf nonConf)
@@ -152,16 +161,16 @@ namespace NC_Module.Services.NonConfService
                 + ":0" + nonConf.Version.ToString();
         }
 
-        private ServiceResponse<GetNonConfDto> NcIsOpen(NonConf nonConf)
+        private bool NcIsOpen(int status)
         {
-            if (nonConf.Status != 0)
+            if (status != 0)
             {
                 serviceResponse.Message = "Esta NC já foi encerrada e não pode mais ser alterada.";
                 serviceResponse.Success = false;
-                return serviceResponse;
+                return false;
             }
 
-            return serviceResponse;
+            return true;
 
         }
          

@@ -31,7 +31,7 @@ namespace NC_Module.Services.CorrActionService
                 _context.corrActions.Add(_mapper.Map<CorrAction>(corrAction));
                 _context.SaveChanges();
 
-                serviceResponse.Data = _mapper.Map<CorrActionDto>(corrAction);
+                serviceResponse.Data = _mapper.Map<CorrActionDto>(_context.corrActions.OrderByDescending(c => c.Id).First());
                 serviceResponse.Message = "A Ação foi criada com sucesso!";
             }
             catch(Exception ex)

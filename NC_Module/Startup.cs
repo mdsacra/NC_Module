@@ -40,7 +40,7 @@ namespace NC_Module
             services.AddScoped<INonConfCorrActionsService, NonConfCorrActionsService>();
             services.AddScoped<ICorrActionService, CorrActionService>();
             services.AddAutoMapper(typeof(Startup));
-            
+                          
 
         }
 
@@ -52,7 +52,7 @@ namespace NC_Module
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -62,6 +62,8 @@ namespace NC_Module
             {
                 endpoints.MapControllers();
             });
+
+            
         }
     }
 }
