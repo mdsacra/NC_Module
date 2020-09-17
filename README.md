@@ -33,7 +33,7 @@ Vale destacar que:
 ### 4. Endpoints
 Segue a lista dos *Endpoints* do projeto para requisições HTTP:
 - Não-conformidades
--- [**GET**]: ```/NonConf/{Id}``` -> Buscar uma Não-conformidade específica através de sua Id.
+ - [**GET**]: ```/NonConf/{Id}``` -> Buscar uma Não-conformidade específica através de sua Id.
 -- [**GET**]: ```/NonConf/{All}``` -> Buscar a lista de todas as Não-conformidades
 -- [**POST**]: ```/NonConf``` -> Salva uma nova Não-conformidade.
 -- [**PUT**]:```/NonConf``` ->  Este método é somente para Avaliação da Não-conformidade, portanto é necessário passar os atributos **_Id_** e **_Status_** no corpo da requisição, conforme abaixo:
