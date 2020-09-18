@@ -21,14 +21,14 @@ O projeto **Módulo de Não-conformidades** tem como objetivo apresentar o desen
 - Buscar Não-conformidades
 
 ### 2. Como Executar
-Basta clonar o repositório com o comando abaixo:<br><br>
-```git clone https://github.com/mdsacra/NC_Module.git```<br><br><br>
- A seguir, tendo o .NET Core corretamente instalado no computador, executar o arquivo **NC_Module.exe**, que encontra-se em ```NC_Module/bin/release/netcoreapp3.1```. A aplicação subirá o servidor em ```localhost://5000``` e foi configurada para usar um Banco de Dados InMemory, onde alguns dados iniciais já estão carregados para realização de testes de requisição. Sugere-se utilizar o programa *Postman* para realizar estes testes.
+Basta clonar o repositório com o comando abaixo:<br>
+```git clone https://github.com/mdsacra/NC_Module.git```<br><br>
+ A seguir, tendo o .NET Core corretamente instalado no computador, executar o arquivo **NC_Module.exe**, que encontra-se em ```NC_Module/bin/release/netcoreapp3.1```. A aplicação subirá o servidor em ```localhost://5000``` e foi configurada para usar um Banco de Dados InMemory, onde alguns dados iniciais estão disponibilizados para realização de testes de requisição. Sugere-se utilizar o programa *Postman* para realizar estes testes.
 
 ### 3. Entidades
 As duas entidades que foram desenvolvidas no projeto foram **NonConf**, para não conformidades, e **CorrAction**, para as Ações de Correção.
 Vale destacar que:
-- **NonConf** possui geração automática da data de criação da Não-conformidade, bem como a geração do código em uma *string*. O atributo **_Status_** é do tipo *int* e inicia em ```0```, o que indica que a Não-conformidade está aberta, ele pode receber os valores ```1```, para Eficaz, e ```2```, para Ineficaz, ambos encerram a Não-conformidade. O atributo **_Version_** inicia em ```1``` e alterado conforme a Não-conformidade é avaliada como Ineficaz.
+- **NonConf** possui geração automática da data de criação da Não-conformidade, bem como a geração do código em uma *string*. O atributo **_Status_** é do tipo *int* e inicia em ```0```, o que indica que a Não-conformidade está aberta, ele pode receber os valores ```1```, para Eficaz, e ```2```, para Ineficaz, ambos encerram a Não-conformidade. O atributo **_Version_** inicia em ```1``` e é acrescentado em novas versões de Não-conformidades avaliadas como Ineficaz.
 - **CorrAction** possui um atributo **_Description_**, que é obrigatório.
 ### 4. Endpoints
 Segue a lista dos *Endpoints* do projeto para requisições HTTP:
