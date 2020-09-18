@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NC_Module.ModelDTO;
 using NC_Module.Models;
@@ -14,6 +15,7 @@ namespace NC_Module.Data
     {
 
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+        
 
         public DbSet<NonConf> nonConfs { get; set; }
         public DbSet<CorrAction> corrActions { get; set; }

@@ -12,18 +12,18 @@ using Xunit;
 
 namespace NC_Module_Test
 {
+
+    //OBS: Se quando executar todos os testes, algum falhar, rode-o isoladamente.
+
     public class NonConfTest : IClassFixture<FixturesTestNonConf>
     {
         
         private INonConfService _nonConfService;
         private ServiceResponse<GetNonConfDto> _serviceResponse;
-        private DataContext _context;
         
         public NonConfTest(FixturesTestNonConf fixture)
         {
             _nonConfService = fixture.ServiceProvider.GetRequiredService<INonConfService>();
-            _context = fixture.ServiceProvider.GetRequiredService<DataContext>();
-
         }
 
 

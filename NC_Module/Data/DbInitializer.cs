@@ -34,7 +34,7 @@ namespace NC_Module.Data
             var newNonConfs = new NonConf[]
             {
                 new NonConf(),
-                new NonConf {Status = 1},
+                new NonConf {Status = 2},
                 new NonConf()
             };
 
