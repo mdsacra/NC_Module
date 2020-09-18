@@ -53,7 +53,7 @@ namespace NC_Module_Test
         }
 
         [Fact]
-        public void Post_ShouldReturnErrorIfStatusGreaterThen2()
+        public void Post_ShouldReturnErrorIfStatusInvalid()
         {
             _serviceResponse = _nonConfService.AddNonConf(new NonConf()
             {

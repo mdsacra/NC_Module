@@ -31,7 +31,7 @@ namespace NC_Module.Services.NonConfService
         {
             ServiceResponse<List<GetNonConfDto>> serviceResponse = new ServiceResponse<List<GetNonConfDto>>()
             {
-                Data = _context.nonConfs.Select(n => _mapper.Map<GetNonConfDto>(n)).ToList()
+                Data = _context.nonConfs.Select(n => _mapper.Map<GetNonConfDto>(InsertCorrActions(n.Id))).ToList()
             };
 
             return serviceResponse;
@@ -48,10 +48,7 @@ namespace NC_Module.Services.NonConfService
 
             try
             {
-                NonConf nonConf = _context.nonConfs
-                .Include(n => n.NonConfCorrActions)
-                .ThenInclude(nc => nc.CorrAction)
-                .FirstOrDefault(n => n.Id == id);
+                NonConf nonConf = InsertCorrActions(id);
 
                 serviceResponse.Data = _mapper.Map<GetNonConfDto>(nonConf);
             }
@@ -66,11 +63,6 @@ namespace NC_Module.Services.NonConfService
 
         public ServiceResponse<GetNonConfDto> AddNonConf(NonConf nonConf)
         {
-            
-            if (StatusValidator(nonConf.Status) == false)
-            {
-                return serviceResponse;
-            }
 
             try
             {
@@ -84,8 +76,15 @@ namespace NC_Module.Services.NonConfService
 
                 serviceResponse.Message = "NC criada com sucesso.";
 
+
                 CreateNcNewVersion(nonConf);
-                
+
+
+                if (StatusValidator(nonConf.Status) == false)
+                {
+                    return serviceResponse;
+                }
+
                 serviceResponse.Data = _mapper.Map<GetNonConfDto>(nonConf);
             } 
             catch (Exception ex)
@@ -194,6 +193,16 @@ namespace NC_Module.Services.NonConfService
 
             return serviceResponse;
             
+        }
+
+        private NonConf InsertCorrActions(int id)
+        {
+            NonConf nonConf = _context.nonConfs
+                .Include(n => n.NonConfCorrActions)
+                .ThenInclude(nc => nc.CorrAction)
+                .FirstOrDefault(n => n.Id == id);
+
+            return nonConf;
         }
         
     }
