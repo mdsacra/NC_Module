@@ -10,10 +10,13 @@
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_DbContextTypeFullName>NC_Module.DAL.DataContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
-    <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
+    <ActiveDebugProfile>NC_Module</ActiveDebugProfile>
     <NameOfLastUsedPublishProfile>FolderProfile</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
