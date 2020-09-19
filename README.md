@@ -23,7 +23,7 @@ O projeto **Módulo de Não-conformidades** tem como objetivo apresentar o desen
 ### 2. Como Executar
 Basta clonar o repositório com o comando abaixo:<br>
 ```git clone https://github.com/mdsacra/NC_Module.git```<br><br>
- A seguir, tendo o .NET Core corretamente instalado no computador, executar o arquivo **NC_Module.exe**, que encontra-se em ```NC_Module/bin/release/netcoreapp3.1```. A aplicação subirá o servidor em ```localhost://5000``` e foi configurada para usar um Banco de Dados InMemory, onde alguns dados iniciais estão disponibilizados para realização de testes de requisição. Sugere-se utilizar o programa *Postman* para realizar estes testes. Caso queira rodar a aplicação dentro do **Visual Studio**, o servidor utilizará o endereço ```localhost://42426```.
+ A seguir, tendo o .NET Core corretamente instalado no computador, executar o arquivo **NC_Module.exe**, que encontra-se em ```NC_Module/bin/release/netcoreapp3.1```. A aplicação subirá o servidor em ```localhost:5000``` e foi configurada para usar um Banco de Dados InMemory, onde alguns dados iniciais estão disponibilizados para realização de testes de requisição. Sugere-se utilizar o programa *Postman* para realizar estes testes. Caso queira rodar a aplicação dentro do **Visual Studio**, o servidor utilizará o endereço ```localhost:42426```.
 
 ### 3. Entidades
 As duas entidades que foram desenvolvidas no projeto foram **NonConf**, para não conformidades, e **CorrAction**, para as Ações de Correção.
